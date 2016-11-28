@@ -21,7 +21,7 @@ Command => npm install
 
 **--** Add all the font file in source->fonts
 
-**--** Add all the image files in source->images and the image which you want to conver to data-uri to avoid http calls, add them into source->images->inlie
+**--** Add all the image files in source->images and the image which you want to convert to data-uri to avoid http calls, add them into source->images->inline
 
 **--** Add all the js file in source->js for libraries use lib folder
 
@@ -46,7 +46,7 @@ to clean the build folder
 
 **browser-sync:**
 
-for live relead and mobile testing
+for live reload and mobile testing
 
 **gulp-imagemin:**
 
@@ -89,7 +89,7 @@ To log js error in console
 
 **watch:**
 
-Runs all the tasks automaticall and waits for any change
+Runs all the tasks automatically and waits for any change
 
 **cleanBuild:**
 
