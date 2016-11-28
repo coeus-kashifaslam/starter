@@ -6,10 +6,8 @@
  * Gulp Libraries
  * ...
  */	
-	gulp = require('gulp'),
+	var gulp = require('gulp'),
 	del = require('del'),
-	size = require('gulp-size'),
-	order = require('gulp-deporder'),
 	browsersync = require('browser-sync'),
 
 	imagemin = require('gulp-imagemin'),
@@ -17,15 +15,18 @@
 	imacss = require('gulp-imacss'),	
 
 	preprocess = require('gulp-preprocess'),
-	htmlclean = require('gulp-htmlclean'),
 
 	sass = require('gulp-sass'),
 	pleeease = require('gulp-pleeease'),
+	compass = require ('gulp-compass'),
 
 	jshint = require('gulp-jshint'),
-	concat = require('gulp-concat'),
-	stripdebug = require('gulp-strip-debug'),
-	uglify = require('gulp-uglify'),
+		//size = require('gulp-size'),
+	//order = require('gulp-deporder'),
+	//htmlclean = require('gulp-htmlclean'),
+	//concat = require('gulp-concat'),
+	//stripdebug = require('gulp-strip-debug'),
+	//uglify = require('gulp-uglify'),
 
 /*
  * Soruce and Destination Folders
@@ -65,6 +66,12 @@
  		open: true,
  		notify: true
  	},
+
+ 	compassOptions	= {
+		css: 'build/css',
+		sass: 'source/sass',
+		image: 'source/images'
+	},
 
 
 /*
@@ -155,8 +162,9 @@ gulp.task('html', function(){
  */
 gulp.task('sass',['imageuri'], function(){
 	return gulp.src(styles.in)
-	.pipe(sass(sassOptions))
+	.pipe (compass(compassOptions))
 	.pipe(pleeease(pleeeaseOptions))
+	.pipe(sass(sassOptions))
 	.pipe(gulp.dest(styles.out))
 	.pipe(browsersync.reload({stream: true}));
 });
