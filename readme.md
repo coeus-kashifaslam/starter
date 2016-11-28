@@ -39,27 +39,49 @@ Command => npm install
 # Gulp Packages
 ----------------------
 
-**gulp:** 			To use gulp
+**gulp:**
 
-**del:** 			to clean the build folder
+To use gulp
 
-**browser-sync:** 	for live relead and mobile testing
+**del:**
 
-**gulp-imagemin:**	To minimize the image size to possible level
+to clean the build folder
 
-**gulp-newer:**		To apply function only on new files
+**browser-sync:**
 
-**gulp-imacss:**	To change images to data uri to avoid http calls
+for live relead and mobile testing
 
-**gulp-preprocess	To create html partials
+**gulp-imagemin:**
 
-**gulp-sass:** 		To change the output style of final css file
+To minimize the image size to possible level
 
-**gulp-pleeease:** 	To add vendor prefixes automatically
+**gulp-newer:**
 
-**gulp-compass:**	To use compass mixins
+To apply function only on new files
 
-**gulp-jshint:**	To log js error in console
+**gulp-imacss:**
+
+To change images to data uri to avoid http calls
+
+**gulp-preprocess
+
+To create html partials
+
+**gulp-sass:**
+
+To change the output style of final css file
+
+**gulp-pleeease:**
+
+To add vendor prefixes automatically
+
+**gulp-compass:**
+
+To use compass mixins
+
+**gulp-jshint:**
+
+To log js error in console
 
 
 
@@ -68,20 +90,38 @@ Command => npm install
 # Gulp Tasks
 ----------------------
 
-**watch:** 			Runs all the tasks automaticall and waits for any change
+**watch:**
 
-**cleanBuild:**	 	Cleans the build folder
+Runs all the tasks automaticall and waits for any change
 
-**browsersync:** 	For reload and mobile testing
+**cleanBuild:**
 
-**html:**		To merge the html partials and output the complete html files
+Cleans the build folder
 
-**sass:**			Changes inline images to data uri and complies sass to css
+**browsersync:**
 
-**images:**			Minimizes, copies new images into build folder
+For reload and mobile testing
 
-**imageuri:**		Change inline images to data uri
+**html:**
 
-**fonts:**			Copies new font files to build folder
+To merge the html partials and output the complete html files
 
-**scripts:**		Copies and debugs the script files
+**sass:**
+
+Changes inline images to data uri and complies sass to css
+
+**images:**
+
+Minimizes, copies new images into build folder
+
+**imageuri:**
+
+Change inline images to data uri
+
+**fonts:**
+
+Copies new font files to build folder
+
+**scripts:**
+
+Copies and debugs the script files
