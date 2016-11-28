@@ -8,10 +8,7 @@
 
 **3:** Install ruby gem compass (https://rubygems.org/search?utf8=%E2%9C%93&query=compass)
 
-**4:** Run a command to init compass in project directory and keep the config.rb file as it
-Command => compass init
-
-**5:** Now install dependencies and package wit this command
+**4:** Now install dependencies and package wit this command
 Command => npm install
 
 
