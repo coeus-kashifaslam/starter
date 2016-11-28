@@ -3,7 +3,9 @@
 ----------------------
 
 1: install Node.js (https://nodejs.org/en/)
+
 2: Install ruby and its dev kit (https://rubyinstaller.org/)
+
 3: Install ruby gem compass (https://rubygems.org/search?utf8=%E2%9C%93&query=compass)
 
 4: Run a command to init compass in project directory and keep the config.rb file as it
