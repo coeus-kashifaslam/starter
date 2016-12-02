@@ -9,14 +9,14 @@
 **3:** Install ruby gem compass (https://rubygems.org/search?utf8=%E2%9C%93&query=compass)
 Command => ruby install compass
 
-**4:** Now install Bower to be able to install the vendors
+**4:** Now install Bower (https://bower.io/)
 Command => npm install -g bower
 
-**5:** Now install dependencies and package wit this command
+**5:** Now install npm dependencies
 Command => npm install
 
-**5:** Now install vendors files
-Command => npm install
+**5:** Now install bower dependencies
+Command => npm install bower
 
 
 ----------------------
@@ -44,51 +44,51 @@ Command => npm install
 
 **Bower:**
 
-To install required packages
+To install required packages (https://www.npmjs.com/package/bower)
 
 **gulp:**
 
-To use gulp
+To use gulp (https://www.npmjs.com/package/gulp)
 
 **del:**
 
-to clean the build folder
+to clean the build folder (https://www.npmjs.com/package/del)
 
 **browser-sync:**
 
-for live reload and mobile testing
+for live reload and mobile testing (https://www.npmjs.com/package/browser-sync)
 
 **gulp-imagemin:**
 
-To minimize the image size to possible level
+To minimize the image size to possible level (https://www.npmjs.com/package/gulp-imagemin)
 
 **gulp-newer:**
 
-To apply function only on new files
+To apply function only on new files (https://www.npmjs.com/package/gulp-newer)
 
 **gulp-imacss:**
 
-To change images to data uri to avoid http calls
+To change images to data uri to avoid http calls (https://www.npmjs.com/package/gulp-imacss)
 
 **gulp-nunjucks
 
-HTML templating engine
+HTML templating engine (https://www.npmjs.com/package/gulp-nunjucks)
 
 **gulp-sass:**
 
-To change the output style of final css file
+To change the output style of final css file (https://www.npmjs.com/package/gulp-sass)
 
 **gulp-pleeease:**
 
-To add vendor prefixes automatically
+To add vendor prefixes automatically (https://www.npmjs.com/package/gulp-pleeease)
 
 **gulp-compass:**
 
-To use compass mixins
+To use compass mixins (https://www.npmjs.com/package/gulp-compass)
 
 **gulp-jshint:**
 
-To log js error in console
+To log js error in console (https://www.npmjs.com/package/gulp-jshint)
 
 
 
