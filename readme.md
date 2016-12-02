@@ -7,10 +7,16 @@
 **2:** Install ruby and its dev kit (https://rubyinstaller.org/)
 
 **3:** Install ruby gem compass (https://rubygems.org/search?utf8=%E2%9C%93&query=compass)
+Command => ruby install compass
 
-**4:** Now install dependencies and package wit this command
+**4:** Now install Bower to be able to install the vendors
+Command => npm install -g bower
+
+**5:** Now install dependencies and package wit this command
 Command => npm install
 
+**5:** Now install vendors files
+Command => npm install
 
 
 ----------------------
@@ -36,6 +42,10 @@ Command => npm install
 # Gulp Packages
 ----------------------
 
+**Bower:**
+
+To install required packages
+
 **gulp:**
 
 To use gulp
@@ -60,9 +70,9 @@ To apply function only on new files
 
 To change images to data uri to avoid http calls
 
-**gulp-preprocess
+**gulp-nunjucks
 
-To create html partials
+HTML templating engine
 
 **gulp-sass:**
 

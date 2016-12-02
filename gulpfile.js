@@ -14,19 +14,20 @@
 	newer = require('gulp-newer'),
 	imacss = require('gulp-imacss'),	
 
-	preprocess = require('gulp-preprocess'),
+	njk = require('gulp-nunjucks'),
 
 	sass = require('gulp-sass'),
 	pleeease = require('gulp-pleeease'),
 	compass = require ('gulp-compass'),
 
 	jshint = require('gulp-jshint'),
-		//size = require('gulp-size'),
+	concat = require('gulp-concat'),
+	stripdebug = require('gulp-strip-debug'),
+	uglify = require('gulp-uglify'),
+
+	//size = require('gulp-size'),
 	//order = require('gulp-deporder'),
 	//htmlclean = require('gulp-htmlclean'),
-	//concat = require('gulp-concat'),
-	//stripdebug = require('gulp-strip-debug'),
-	//uglify = require('gulp-uglify'),
 
 /*
  * Soruce and Destination Folders
@@ -151,7 +152,7 @@ gulp.task('browsersync', function(){
 gulp.task('html', function(){
 	return gulp
 	.src(html.in)
-	.pipe(preprocess())
+	.pipe(njk.compile())
 	.pipe(gulp.dest(html.out));
 });
 
@@ -218,7 +219,10 @@ gulp.task('scripts', function(){
 	.pipe(newer(scripts.out))
 	.pipe(jshint())
 	.pipe(jshint.reporter('default'))
-	.pipe(jshint.reporter('fail'))
+	// .pipe(jshint.reporter('fail'))
+	.pipe(concat(scripts.filename))
+	.pipe(stripdebug())
+	.pipe(uglify())
 	.pipe(gulp.dest(scripts.out));
 });
 
