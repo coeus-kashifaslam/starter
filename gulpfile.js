@@ -93,7 +93,7 @@
 		in: [
 			// Add All vendor paths here
 			source + 'js/*.js',
-			ource + 'js/**/*.js'
+			source + 'js/**/*.js'
 		],
 		out: destination + 'js/',
 		filename: 'main.js'
