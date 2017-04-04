@@ -12,7 +12,6 @@
 
 	imagemin = require('gulp-imagemin'),
 	newer = require('gulp-newer'),
-	imacss = require('gulp-imacss'),	
 
 	njk = require('gulp-nunjucks'),
 	w3cjs = require('gulp-w3cjs'),
@@ -22,9 +21,9 @@
 	csscomb = require ('gulp-csscomb'),
 
 	jshint = require('gulp-jshint'),
-	// concat = require('gulp-concat'),
-	// stripdebug = require('gulp-strip-debug'),
-	// uglify = require('gulp-uglify'),
+	concat = require('gulp-concat'),
+	stripdebug = require('gulp-strip-debug'),
+	uglify = require('gulp-uglify'),
 
 
 /*
