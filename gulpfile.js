@@ -15,16 +15,16 @@
 	imacss = require('gulp-imacss'),	
 
 	njk = require('gulp-nunjucks'),
+	w3cjs = require('gulp-w3cjs'),
 
 	sass = require('gulp-sass'),
 	pleeease = require('gulp-pleeease'),
-	compass = require ('gulp-compass'),
 	csscomb = require ('gulp-csscomb'),
 
 	jshint = require('gulp-jshint'),
-	concat = require('gulp-concat'),
-	stripdebug = require('gulp-strip-debug'),
-	uglify = require('gulp-uglify'),
+	// concat = require('gulp-concat'),
+	// stripdebug = require('gulp-strip-debug'),
+	// uglify = require('gulp-uglify'),
 
 
 /*
@@ -50,7 +50,7 @@
 
  	pleeeaseOptions = {
  		autoprefixer: {
- 			browsers: ['> 2%','last 2 versions'], 
+ 			browsers: ['> 2%','last 3 versions'],
  			cascade: false
  		},
  		pseudoElements: true,
@@ -66,13 +66,6 @@
 		open: true,
 		notify: true
 	},
-
- 	compassOptions	= {
-		css: 'build/css',
-		sass: 'source/sass',
-		image: 'source/images'
-	},
-
 
 /*
  * Source and Destination Assets
@@ -101,13 +94,6 @@
 	images = {
 		in: [source + 'images/*.*', source + 'images/**/*.*'],
 		out: destination + 'images/'
-	},
-
-	imageuri = {
-		in: source + 'images/inline/*',
-		out: source + 'sass/images/',
-		filename: '_datauri.scss',
-		namespace: 'img'
 	},
 
 	fonts = {
@@ -151,17 +137,28 @@ gulp.task('cleanBuild', function(){
 gulp.task('browsersync', function(){
 	browsersync(browsersyncOptions);
 });
-
-
 /*
- * Task to Build HTML from templates and minify HTMl for Production
+ * Task to Build HTML from templates
  * ...
  */
 gulp.task('html', function(){
 	return gulp
+		.src(html.in)
+		.pipe(njk.compile())
+		.pipe(gulp.dest(html.out));
+});
+
+/*
+ * Task to Build HTML from templates and validate it
+ * ...
+ */
+gulp.task('htmlValidate', function(){
+	return gulp
 	.src(html.in)
 	.pipe(njk.compile())
 	.pipe(gulp.dest(html.out))
+	.pipe(w3cjs(html.out))
+	.pipe(w3cjs.reporter());
 });
 
 /*
@@ -170,7 +167,6 @@ gulp.task('html', function(){
  */
 gulp.task('sass', function(){
 	return gulp.src(styles.in)
-	.pipe (compass(compassOptions))
 	.pipe(pleeease(pleeeaseOptions))
 	// .pipe(csscomb())
 	.pipe(sass(sassOptions))
@@ -189,19 +185,6 @@ gulp.task('images', function(){
 	.pipe(newer(images.out))
 	.pipe(imagemin())
 	.pipe(gulp.dest(images.out));
-});
-
-
-/*
- * Task to Chagne images to Data URI to avoid HTTP Request
- * ...
- */
-gulp.task('imageuri', function(){
-	return gulp
-	.src(imageuri.in)
-	.pipe(imagemin())	
-	.pipe(imacss(imageuri.filename, imageuri.namespace))
-	.pipe(gulp.dest(imageuri.out));
 });
 
 
