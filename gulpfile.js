@@ -19,11 +19,14 @@
 	sass = require('gulp-sass'),
 	pleeease = require('gulp-pleeease'),
 	csscomb = require ('gulp-csscomb'),
+	iconfont = require('gulp-iconfont'),
+	iconfontCss = require('gulp-iconfont-css'),
 
 	jshint = require('gulp-jshint'),
 	concat = require('gulp-concat'),
 	stripdebug = require('gulp-strip-debug'),
 	uglify = require('gulp-uglify'),
+
 
 
 /*
@@ -66,6 +69,24 @@
 		notify: true
 	},
 
+	iconfontName = 'fontName',
+	iconfontcssOptions = {
+		fontName: iconfontName,
+		path: source + 'iconfont/template/_icons.css',
+		targetPath: 'scss/_icons.css',
+		fontPath: 'iconfont/fonts/'
+	},
+
+	iconfontOptions = {
+		fontName: iconfontName,
+		appendCodepoints: true,
+		appendUnicode: false,
+		centerHorizontally: true,
+		formats: ['svg', 'ttf', 'eot', 'woff', 'woff2'],
+		normalize: true,
+		fontHeight: 1001
+	},
+
 /*
  * Source and Destination Assets
  * ...
@@ -78,6 +99,11 @@
 	styles = {
 		in: source + 'sass/*.scss',
 		out: destination + 'css/'
+	},
+
+	stylesource = {
+		in: source + 'sass/**/*',
+		out: destination + 'sass/'
 	},
 
 	scripts = {
@@ -94,15 +120,14 @@
 		in: [source + 'images/*.*', source + 'images/**/*.*'],
 		out: destination + 'images/'
 	},
+	svgs = {
+		in: source + 'svg/**/*.svg',
+		out: source + 'iconfont/'
+	},
 
 	fonts = {
 		in: source + 'fonts/**/*',
 		out: destination + 'fonts/' 
-	},
-
-	stylesource = {
-		in: source + 'sass/**/*',
-		out: destination + 'sass/'
 	},
 
 	watch = {
@@ -129,6 +154,7 @@ gulp.task('cleanBuild', function(){
 	]);
 });
 
+
 /*
  * Task for Browser Sync
  * ...
@@ -136,15 +162,29 @@ gulp.task('cleanBuild', function(){
 gulp.task('browsersync', function(){
 	browsersync(browsersyncOptions);
 });
+
+
+/*
+ * Task Create css Icons from Svg files
+ * ...
+ */
+gulp.task('iconfont', function(){
+	return gulp
+	.src(svgs.in)
+	.pipe(iconfontCss(iconfontcssOptions))
+	.pipe(iconfont(iconfontOptions))
+	.pipe(gulp.dest(svgs.out));
+});
+
 /*
  * Task to Build HTML from templates
  * ...
  */
 gulp.task('html', function(){
 	return gulp
-		.src(html.in)
-		.pipe(njk.compile())
-		.pipe(gulp.dest(html.out));
+	.src(html.in)
+	.pipe(njk.compile())
+	.pipe(gulp.dest(html.out));
 });
 
 /*
@@ -204,8 +244,8 @@ gulp.task('fonts', function(){
  */
 gulp.task('sassCopy', function(){
 	return gulp
-		.src(stylesource.in)
-		.pipe(gulp.dest(stylesource.out));
+	.src(stylesource.in)
+	.pipe(gulp.dest(stylesource.out));
 });
 
 
