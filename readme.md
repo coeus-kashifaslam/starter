@@ -1,134 +1,61 @@
-----------------------
 # Installations
-----------------------
 
-**1:** install Node.js (https://nodejs.org/en/)
-
-**2:** Install ruby and its dev kit (https://rubyinstaller.org/)
-
-**3:** Install ruby gem compass (https://rubygems.org/search?utf8=%E2%9C%93&query=compass)
-Command => ruby install compass
-
-**4:** Now install Bower (https://bower.io/)
-Command => npm install -g bower
-
-**5:** Now install npm dependencies
-Command => npm install
-
-**5:** Now install bower dependencies
-Command => npm install bower
+- install Node.js [Node.js](https://nodejs.org/en/)
+-  Extract ruby and its dev kit [Ruby](https://rubyinstaller.org/).
+    - You can find the [complete guide for windows here](https://forwardhq.com/help/installing-ruby-windows)
+- Install ruby gem compass [Compass](https://rubygems.org/search?utf8=%E2%9C%93&query=compass)
+    - **Command => gem install compass**
+- Now install dependencies and package wit this command
+    - **Command => npm install**
+- If you want to use [Bower](https://bower.io/) as package manager, Run these two commands in the project folder to setup bower.
+    - **Command=> npm install -g bower**
+    - **Command=> bower init and save with default**
+- Now to install any bower package run this commmand
+    - **Command=> bower install <packagename> -S**
 
 
-----------------------
 # Directory Structure
-----------------------
 
-**--** All of your working files will be in source folder and it will output the file in build folder
-
-**--** Add all the font file in source->fonts
-
-**--** Add all the image files in source->images and the image which you want to convert to data-uri to avoid http calls, add them into source->images->inline
-
-**--** Add all the js file in source->js for libraries use lib folder
-
-**--** Add all the .scss file in source->sass
-
-**--** Add all the html partials file in source->template
+- All of your working files will be in source folder and it will output the file in build folder
+- Add all the font file in source->fonts
+- Add all the image files in source->images and the image which you want to convert to data-uri to avoid http calls, add them into source->images->inline
+- Add all the js file in source->js for libraries use lib folder
+- Add all the .scss file in source->sass
+- Add all the html partials file in source->template
 
 
-
-
-----------------------
 # Gulp Packages
-----------------------
 
-**Bower:**
-
-To install required packages (https://www.npmjs.com/package/bower)
-
-**gulp:**
-
-To use gulp (https://www.npmjs.com/package/gulp)
-
-**del:**
-
-to clean the build folder (https://www.npmjs.com/package/del)
-
-**browser-sync:**
-
-for live reload and mobile testing (https://www.npmjs.com/package/browser-sync)
-
-**gulp-imagemin:**
-
-To minimize the image size to possible level (https://www.npmjs.com/package/gulp-imagemin)
-
-**gulp-newer:**
-
-To apply function only on new files (https://www.npmjs.com/package/gulp-newer)
-
-**gulp-imacss:**
-
-To change images to data uri to avoid http calls (https://www.npmjs.com/package/gulp-imacss)
-
-**gulp-nunjucks
-
-HTML templating engine (https://www.npmjs.com/package/gulp-nunjucks)
-
-**gulp-sass:**
-
-To change the output style of final css file (https://www.npmjs.com/package/gulp-sass)
-
-**gulp-pleeease:**
-
-To add vendor prefixes automatically (https://www.npmjs.com/package/gulp-pleeease)
-
-**gulp-compass:**
-
-To use compass mixins (https://www.npmjs.com/package/gulp-compass)
-
-**gulp-jshint:**
-
-To log js error in console (https://www.npmjs.com/package/gulp-jshint)
+- **[gulp](https://www.npmjs.com/package/gulp):** The streaming build system
+- **[bower](https://www.npmjs.com/package/bower):** The browser package manager
+- **[del](https://www.npmjs.com/package/del):** Delete files and folders
+- **[browser-sync](https://www.npmjs.com/package/browser-sync):** Live CSS Reload & Browser Syncing
+- **[gulp-nunjucks](https://www.npmjs.com/package/gulp-nunjucks):** HTML templating engine
+- **[gulp-sass](https://www.npmjs.com/package/gulp-sass):** Gulp plugin for sass
+- **[gulp-pleeease](https://www.npmjs.com/package/gulp-pleeease):** To add vendor prefixes automatically
+- **[gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin):** Minify PNG, JPEG, GIF and SVG images
+- **[gulp-newer](https://www.npmjs.com/package/gulp-newer):** Only pass through newer source files
+- **[gulp-imacss](https://www.npmjs.com/package/gulp-imacss):** A gulp plugin for using imacss (the image to datauri to CSS transformer) to avoid http calls
+- **[gulp-jshint](https://www.npmjs.com/package/gulp-jshint):** JSHint plugin for gulp To log js error in console
+- **[gulp-concat](https://www.npmjs.com/package/gulp-concat):** Concatenates files
+- **[gulp-strip-debug](https://www.npmjs.com/package/gulp-strip-debug):** Strip console and debugger statements from JavaScript code
+- **[gulp-uglify](https://www.npmjs.com/package/gulp-uglify):** Minify files with UglifyJS.
 
 
+# Load components from bower
+
+- To load any js file from bower_components add the path of js file in array scripits.in array in gulpfile.js file (find this: //add path of any bower component here)
+- To load and sass file in css file add the path of sass file at in you main scss file in sass folder
 
 
-----------------------
 # Gulp Tasks
-----------------------
 
-**watch:**
-
-Runs all the tasks automatically and waits for any change
-
-**cleanBuild:**
-
-Cleans the build folder
-
-**browsersync:**
-
-For reload and mobile testing
-
-**html:**
-
-To merge the html partials and output the complete html files
-
-**sass:**
-
-Changes inline images to data uri and complies sass to css
-
-**images:**
-
-Minimizes, copies new images into build folder
-
-**imageuri:**
-
-Change inline images to data uri
-
-**fonts:**
-
-Copies new font files to build folder
-
-**scripts:**
-
-Copies and debugs the script files
+- **watch:** Runs all the tasks automatically and waits for any change
+- **cleanBuild:** Cleans the build folder
+- **browsersync:** For reload and mobile testing
+- **html:** To merge the html partials and output the complete html files
+- **sass:** Complies sass to css
+- **images:** Minimizes, copies new images into build folder
+- **imageuri:** Change inline images to data uri
+- **fonts:** Copies new font files to build folder
+- **scripts:** Copies and debugs the script files
