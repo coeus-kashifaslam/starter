@@ -2,120 +2,117 @@
 /* 			  Variables				*/
 /************************************/
 
+/************************************/
+
+
+/* 				Tasks				*/
+/************************************/
 /*
  * Gulp Libraries
  * ...
- */	
-	var gulp = require('gulp'),
-	del = require('del'),
-	browsersync = require('browser-sync'),
+ */
+var gulp = require('gulp'),
+    del = require('del'),
+    browsersync = require('browser-sync'),
+    newer = require('gulp-newer'),
 
-	imagemin = require('gulp-imagemin'),
-	newer = require('gulp-newer'),
+    njk = require('gulp-nunjucks'),
+    htmlmin = require('gulp-htmlmin'),
 
-	njk = require('gulp-nunjucks'),
-	w3cjs = require('gulp-w3cjs'),
-
-	sass = require('gulp-sass'),
+    sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     sourcemaps = require('gulp-sourcemaps'),
+    csso = require('gulp-csso'),
 
 
-    jshint = require('gulp-jshint'),
-	concat = require('gulp-concat'),
-	stripdebug = require('gulp-strip-debug'),
-	uglify = require('gulp-uglify'),
+    babel = require('gulp-babel'),
+    webpackConfig = require('./webpack.config.js'),
+    webpack = require('webpack'),
+    webpackStream = require('webpack-stream'),
 
 
+    /*
+     * Soruce and Destination Folders
+     * ...
+     */
+    source = 'src/',
+    destination = 'dist/',
 
-/*
- * Soruce and Destination Folders
- * ...
- */
-    source = 'source/',
-	destination = 'build/',
 
+    /*
+     * Options List
+     * ...
+     */
 
-/*
- * Options List
- * ...
- */
-
- 	sassOptions = {
- 		errToLogConsole: true,
- 		precision: 4,
- 		outputStyle: 'expanded',
- 		sourceComments: false,
- 		indentWidth: 4
- 	},
+    sassOptions = {
+        errToLogConsole: true,
+        precision: 4,
+        outputStyle: 'expanded',
+        sourceComments: false,
+        indentWidth: 4
+    },
 
     autoprefixerOptions = {
- 		autoprefixer: {
- 			browsers: ['> 2%','last 3 versions'],
- 			cascade: false
- 		}
- 	},
+        autoprefixer: {
+            browsers: ['> 2%','last 3 versions'],
+            cascade: false
+        }
+    },
 
- 	browsersyncOptions = {
-		server: {
-			baseDir: destination,
-			index: 'index.html'
-		},
-		open: true,
-		notify: true
-	},
+    browsersyncOptions = {
+        server: {
+            baseDir: destination,
+            index: 'index.html'
+        },
+        open: true,
+        notify: true
+    },
 
-/*
- * Source and Destination Assets
- * ...
- */
-	html = {
-		in: source + '*.html',
-		out: destination
-	},
+    /*
+     * Source and Destination Assets
+     * ...
+     */
+    html = {
+        in: source + 'html/*.html',
+        out: destination
+    },
 
-	styles = {
-		in: source + 'sass/*.scss',
-		out: destination + 'css/'
-	},
+    css = {
+        in: source + 'sass/*.scss',
+        out: destination + 'css/'
+    },
 
-	stylesource = {
-		in: source + 'sass/**/*',
-		out: destination + 'sass/'
-	},
+    cssSource = {
+        in: source + 'sass/**/*',
+        out: destination + 'sass/'
+    },
 
-	scripts = {
-		in: [
-			// Add All vendor paths here
-			source + 'js/*.js',
-			source + 'js/**/*.js'
-		],
-		out: destination + 'js/',
-		filename: 'main.js'
-	},
+    scripts = {
+        in: [
+            // Add All vendor paths here
+            source + 'js/*.js',
+            source + 'js/**/*.js'
+        ],
+        out: destination + 'js/'
+    },
 
-	images = {
-		in: [source + 'images/*.*', source + 'images/**/*.*'],
-		out: destination + 'images/'
-	},
+    images = {
+        in: [source + 'images/*.*', source + 'images/**/*.*'],
+        out: destination + 'images/'
+    },
 
-	fonts = {
-		in: source + 'fonts/**/*',
-		out: destination + 'fonts/' 
-	},
+    fonts = {
+        in: source + 'fonts/**/*',
+        out: destination + 'fonts/'
+    },
 
-	watch = {
-		html: [source + '*.html', source + 'template/**/*.html'],
-		sass: [source + 'sass/**/*.scss'],
-		fonts: [source + 'fonts/*'],
-		images: [source + 'images/*.*', source + 'images/**/*.*'],
-		scripts: [source + 'js/*.js', source + 'js/**/*.js']
-	};	
-
-
-/************************************/
-/* 				Tasks				*/
-/************************************/
+    watch = {
+        html: [source + '*.html', source + 'html/*.html', source + 'html/**/*.html'],
+        sass: [source + 'sass/**/*.scss'],
+        fonts: [source + 'fonts/*'],
+        images: [source + 'images/*.*', source + 'images/**/*.*'],
+        scripts: [source + 'js/*.js', source + 'js/**/*.js']
+    };
 
 
 /*
@@ -145,46 +142,35 @@ gulp.task('html', function(){
 	return gulp
 	.src(html.in)
 	.pipe(njk.compile())
+    // .pipe(htmlmin({collapseWhitespace: true, removeComments: true }))
 	.pipe(gulp.dest(html.out));
 });
 
-/*
- * Task to Build HTML from templates and validate it
- * ...
- */
-gulp.task('htmlValidate', function(){
-	return gulp
-	.src(html.in)
-	.pipe(njk.compile())
-	.pipe(gulp.dest(html.out))
-	.pipe(w3cjs(html.out))
-	.pipe(w3cjs.reporter());
-});
 
 /*
  * Task to Merge and Compile Sass files
  * ...
  */
 gulp.task('sass', function(){
-	return gulp.src(styles.in)
+	return gulp.src(css.in)
 	.pipe(sourcemaps.init())
 	.pipe(sass(sassOptions).on('error', sass.logError))
 	.pipe(sourcemaps.write())
 	.pipe(autoprefixer(autoprefixerOptions))
-	.pipe(gulp.dest(styles.out))
+	// .pipe(csso())
+	.pipe(gulp.dest(css.out))
 	.pipe(browsersync.reload({stream: true}));
 });
 
 
 /*
- * Task to compress and copy images into build folder
+ * Task to copy images into build folder
  * ...
  */
 gulp.task('images', function(){
 	return gulp
 	.src(images.in)
 	.pipe(newer(images.out))
-	.pipe(imagemin())
 	.pipe(gulp.dest(images.out));
 });
 
@@ -201,30 +187,27 @@ gulp.task('fonts', function(){
 });
 
 /*
- * Task to copy Fonts in build folders
+ * Task to copy Sass in build folders
  * ...
  */
 gulp.task('sassCopy', function(){
 	return gulp
-	.src(stylesource.in)
-	.pipe(gulp.dest(stylesource.out));
+	.src(cssSource.in)
+	.pipe(gulp.dest(cssSource.out));
 });
 
 
 /*
- * Task to copy Fonts in build folders
+ * Task to Compile scripts with webpack and babel and copy build folder
  * ...
  */
 gulp.task('scripts', function(){
 	return gulp
 	.src(scripts.in)
-	.pipe(newer(scripts.out))
-	.pipe(jshint())
-	.pipe(jshint.reporter('default'))
-	// .pipe(jshint.reporter('fail'))
-	// .pipe(concat(scripts.filename))
-	// .pipe(stripdebug())
-	// .pipe(uglify())
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
+        .pipe(webpackStream(webpackConfig), webpack)
 	.pipe(gulp.dest(scripts.out));
 });
 
