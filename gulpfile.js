@@ -116,7 +116,7 @@ var gulp = require('gulp'),
 
 
 /*
- * Task to clean the build folder
+ * Task to clean the dist folder
  * ...
  */
 gulp.task('cleanBuild', function(){
@@ -164,7 +164,7 @@ gulp.task('sass', function(){
 
 
 /*
- * Task to copy images into build folder
+ * Task to copy images into dist folder
  * ...
  */
 gulp.task('images', function(){
@@ -176,7 +176,7 @@ gulp.task('images', function(){
 
 
 /*
- * Task to copy Fonts in build folders
+ * Task to copy Fonts in dist folder
  * ...
  */
 gulp.task('fonts', function(){
@@ -187,7 +187,7 @@ gulp.task('fonts', function(){
 });
 
 /*
- * Task to copy Sass in build folders
+ * Task to copy Sass in dist folder
  * ...
  */
 gulp.task('sassCopy', function(){
@@ -198,16 +198,14 @@ gulp.task('sassCopy', function(){
 
 
 /*
- * Task to Compile scripts with webpack and babel and copy build folder
+ * Task to Compile scripts with webpack and babel and copy dist folder
  * ...
  */
 gulp.task('scripts', function(){
 	return gulp
 	.src(scripts.in)
-        .pipe(babel({
-            presets: ['@babel/env']
-        }))
-        .pipe(webpackStream(webpackConfig), webpack)
+    .pipe(babel({ presets: ['@babel/env']}))
+    .pipe(webpackStream(webpackConfig), webpack)
 	.pipe(gulp.dest(scripts.out));
 });
 
