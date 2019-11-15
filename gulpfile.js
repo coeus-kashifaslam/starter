@@ -91,8 +91,7 @@ var gulp = require('gulp'),
     scripts = {
         in: [
             // Add All vendor paths here
-            source + 'js/*.js',
-            source + 'js/**/*.js'
+            source + 'js/*.js'
         ],
         out: destination + 'js/'
     },
@@ -207,14 +206,13 @@ gulp.task('scripts', function(){
 	.src(scripts.in)
     .pipe(plumber())
 
-    // Es6 to Es5 PS: Imports and exports will not work.
-    .pipe(babel({
-       presets: ['@babel/env']
-    }))
+    // Es6 to Es5 PS: it will errors in console for imports and exports.
+    // .pipe(babel({
+    //    presets: ['@babel/env']
+    // }))
 
-    // Es6 to Es6 and bundling
-    // .pipe(webpackStream(webpackConfig), webpack)
-
+    // for React JSX and Es6 to Es6 and bundling
+    .pipe(webpackStream(webpackConfig), webpack)
     .pipe(gulp.dest(scripts.out));
 });
 
