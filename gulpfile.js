@@ -10,11 +10,12 @@
 var gulp = require('gulp'),
     nunjucksRender = require('gulp-nunjucks-render'),
     del = require('del'),
-    browsersync = require('browser-sync'),
+    browserSync = require("browser-sync").create(),
     newer = require('gulp-newer'),
 
     sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
+    postcss = require("gulp-postcss"),
+    autoprefixer = require('autoprefixer'),
     sourcemaps = require('gulp-sourcemaps'),
 
     plumber = require('gulp-plumber'),
@@ -42,10 +43,8 @@ var gulp = require('gulp'),
     },
 
     autoprefixerOptions = {
-        autoprefixer: {
-            browsers: ['> 2%','last 3 versions'],
-            cascade: false
-        }
+        overrideBrowserslist: ['> 2%','last 3 versions'],
+        cascade: false
     },
 
     browsersyncOptions = {
@@ -94,7 +93,7 @@ var gulp = require('gulp'),
         out: destination + 'fonts/'
     },
 
-    watch = {
+    watcher = {
         html: [source + '*.html', source + 'html/*.html', source + 'html/**/*.html'],
         sass: [source + 'sass/**/*.scss'],
         fonts: [source + 'fonts/*'],
@@ -103,109 +102,73 @@ var gulp = require('gulp'),
     };
 
 
-/*
- * Task to clean the build folder
- * ...
- */
-gulp.task('cleanBuild', function(){
-	del([
-		destination + '*'
-	]);
-});
+function cleanBuild() {
+    return del([
+        destination + '*'
+    ]);
+}
 
 
-/*
- * Task for Browser Sync
- * ...
- */
-gulp.task('browsersync', function(){
-	browsersync(browsersyncOptions);
-});
-
-/*
- * Task to Build HTML from templates
- * ...
- */
-gulp.task('html', function(){
-	return gulp
-	.src(html.in)
+function nunjucks() {
+	return gulp.src(html.in)
     .pipe(nunjucksRender({
         path: [source+'/html/'] // String or Array
     }))
 	.pipe(gulp.dest(html.out));
-});
+}
+
+function style() {
+    return gulp.src(css.in)
+        .pipe(sourcemaps.init())
+        .pipe(sass(sassOptions)).on('error', sass.logError)
+        .pipe(postcss([autoprefixer(autoprefixerOptions)]))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(css.out))
+        .pipe(browserSync.stream());
+}
+
+function graphics() {
+    return gulp.src(images.in)
+        .pipe(newer(images.out))
+        .pipe(gulp.dest(images.out));
+}
+
+function typography() {
+    return gulp.src(fonts.in)
+        .pipe(newer(fonts.out))
+        .pipe(gulp.dest(fonts.out));
+}
+
+function sassCopy() {
+    return gulp.src(cssSource.in)
+        .pipe(gulp.dest(cssSource.out));
+}
+
+function js() {
+    return gulp.src(scripts.in)
+        .pipe(plumber())
+        .pipe(gulp.dest(scripts.out));
+}
+
+function watch() {
+    browserSync.init(browsersyncOptions);
+    gulp.watch(watcher.sass, gulp.series([style, sassCopy]));
+    gulp.watch(watcher.html, nunjucks);
+    gulp.watch(watcher.scripts, js);
+    gulp.watch(watcher.images, graphics);
+    gulp.watch(watcher.fonts, typography);
+    gulp.watch([html.out + '*.html', css.out + '*.css', scripts.out + '*.js', images.out + '*', fonts.out + '*']).on('change', browserSync.reload);
+}
+
+exports.cleanBuild = cleanBuild;
+exports.nunjucks = nunjucks;
+exports.style = style;
+exports.graphics = graphics;
+exports.typography = typography;
+exports.sassCopy = sassCopy;
+exports.js = js;
 
 
-/*
- * Task to Merge and Compile Sass files
- * ...
- */
-gulp.task('sass', function(){
-	return gulp.src(css.in)
-	.pipe(sourcemaps.init())
-	.pipe(sass(sassOptions).on('error', sass.logError))
-	.pipe(sourcemaps.write())
-	.pipe(autoprefixer(autoprefixerOptions))
-	.pipe(gulp.dest(css.out))
-	.pipe(browsersync.reload({stream: true}));
-});
+var build = gulp.parallel(watch);
 
-
-/*
- * Task to copy images into build folder
- * ...
- */
-gulp.task('images', function(){
-	return gulp
-	.src(images.in)
-	.pipe(newer(images.out))
-	.pipe(gulp.dest(images.out));
-});
-
-
-/*
- * Task to copy Fonts in build folders
- * ...
- */
-gulp.task('fonts', function(){
-	return gulp
-	.src(fonts.in)
-	.pipe(newer(fonts.out))
-	.pipe(gulp.dest(fonts.out));
-});
-
-/*
- * Task to copy Sass in build folders
- * ...
- */
-gulp.task('sassCopy', function(){
-	return gulp
-	.src(cssSource.in)
-	.pipe(gulp.dest(cssSource.out));
-});
-
-
-/*
- * Task to Compile scripts with webpack and babel and copy build folder
- * ...
- */
-gulp.task('scripts', function(){
-	return gulp
-	.src(scripts.in)
-    .pipe(plumber())
-    .pipe(gulp.dest(scripts.out));
-});
-
-
-/*
- * Default Task
- * Watching All of the written tasks
- * ...
- */
-gulp.task('default', gulp.series('html', 'browsersync', 'sass', 'fonts', 'images', 'scripts', 'sassCopy') , function() {
-	gulp.watch(watch.html, ['html', browsersync.reload]);
-	gulp.watch(watch.sass,['sass', 'sassCopy']);
-	gulp.watch(watch.fonts, ['fonts']);
-	gulp.watch(watch.images, ['images']);
-	gulp.watch(watch.scripts, ['scripts', browsersync.reload]);
-});
+gulp.task('default', build);
