@@ -1,34 +1,22 @@
-/************************************/
-/* 			  Variables				*/
-/************************************/
 
 /************************************/
-
-
 /* 				Tasks				*/
 /************************************/
 /*
  * Gulp Libraries
  * ...
  */
+
 var gulp = require('gulp'),
+    nunjucksRender = require('gulp-nunjucks-render'),
     del = require('del'),
     browsersync = require('browser-sync'),
     newer = require('gulp-newer'),
 
-    njk = require('gulp-nunjucks'),
-    htmlmin = require('gulp-htmlmin'),
-
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     sourcemaps = require('gulp-sourcemaps'),
-    csso = require('gulp-csso'),
 
-
-    babel = require('gulp-babel'),
-    webpackConfig = require('./webpack.config.js'),
-    webpack = require('webpack'),
-    webpackStream = require('webpack-stream'),
     plumber = require('gulp-plumber'),
 
 
@@ -141,8 +129,9 @@ gulp.task('browsersync', function(){
 gulp.task('html', function(){
 	return gulp
 	.src(html.in)
-	.pipe(njk.compile())
-    // .pipe(htmlmin({collapseWhitespace: true, removeComments: true }))
+    .pipe(nunjucksRender({
+        path: [source+'/html/'] // String or Array
+    }))
 	.pipe(gulp.dest(html.out));
 });
 
@@ -157,7 +146,6 @@ gulp.task('sass', function(){
 	.pipe(sass(sassOptions).on('error', sass.logError))
 	.pipe(sourcemaps.write())
 	.pipe(autoprefixer(autoprefixerOptions))
-	// .pipe(csso())
 	.pipe(gulp.dest(css.out))
 	.pipe(browsersync.reload({stream: true}));
 });
@@ -205,14 +193,6 @@ gulp.task('scripts', function(){
 	return gulp
 	.src(scripts.in)
     .pipe(plumber())
-
-    // Es6 to Es5 PS: it will errors in console for imports and exports.
-    // .pipe(babel({
-    //    presets: ['@babel/env']
-    // }))
-
-    // for React JSX and Es6 to Es6 and bundling
-    .pipe(webpackStream(webpackConfig), webpack)
     .pipe(gulp.dest(scripts.out));
 });
 
@@ -222,7 +202,7 @@ gulp.task('scripts', function(){
  * Watching All of the written tasks
  * ...
  */
-gulp.task('default', ['html', 'browsersync', 'sass', 'fonts', 'images', 'scripts', 'sassCopy'] , function() {
+gulp.task('default', gulp.series('html', 'browsersync', 'sass', 'fonts', 'images', 'scripts', 'sassCopy') , function() {
 	gulp.watch(watch.html, ['html', browsersync.reload]);
 	gulp.watch(watch.sass,['sass', 'sassCopy']);
 	gulp.watch(watch.fonts, ['fonts']);

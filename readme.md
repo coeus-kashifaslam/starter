@@ -1,6 +1,7 @@
 # Installations
 
 - install Node.js [Node.js](https://nodejs.org/en/)
+- install gulp and gulp-cli Globally **npm i -g gulp gulp-cli**
 - Now install dependencies and package wit this command
     - **Command => npm install**
 

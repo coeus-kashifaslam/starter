@@ -1,5 +1,5 @@
 {
-  "name": "gulp-course",
+  "name": "starter",
   "version": "1.0.0",
   "description": "",
   "main": "build/index.html",
@@ -8,28 +8,16 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/preset-react": "^7.7.0",
-    "babel-loader": "^8.0.6",
-    "browser-sync": "^2.12.3",
-    "del": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^4.1.0",
-    "gulp-babel": "^8.0.0",
-    "gulp-csso": "^3.0.1",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-newer": "^1.1.0",
-    "gulp-nunjucks": "^2.3.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-sass": "^2.3.0",
-    "gulp-sourcemaps": "^2.6.2",
-    "webpack": "^4.41.2",
-    "webpack-stream": "^5.2.1"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "axios": "^0.19.0",
-    "babel-polyfill": "^6.26.0"
+    "browser-sync": "^2.26.7",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-newer": "^1.4.0",
+    "gulp-nunjucks-render": "^2.2.3",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5"
   }
 }
